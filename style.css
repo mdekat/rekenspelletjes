@@ -1,0 +1,695 @@
+/* ============================================================
+   Gedeelde stijlen – Rekenspelletjes
+   Breakpoints:
+     Mobiel  : standaard (< 600px)
+     iPad    : 600px – 1023px
+     Laptop  : ≥ 1024px
+   ============================================================ */
+
+/* --- Reset -------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Basis (mobiel eerst) ----------------------------------- */
+body {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px;
+}
+
+h1 {
+  color: white;
+  font-size: 1.7em;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.subtitle {
+  color: #ffe0f0;
+  font-size: 0.9em;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* --- Startpagina: kaartjesraster ---------------------------- */
+.games-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.game-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.33);
+}
+
+.game-card:active {
+  transform: scale(0.97);
+}
+
+.card-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #7c4dff;
+  margin-bottom: 6px;
+}
+
+.card-description {
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.5;
+}
+
+.card-footer {
+  padding: 0 16px 16px;
+}
+
+.play-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  color: white;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.play-btn:active {
+  transform: scale(0.95);
+}
+
+/* --- Spelletje: gedeelde knoppen ---------------------------- */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95em;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn.active {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+}
+
+.btn-start {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  color: white;
+}
+
+/* --- Spelletje: container ----------------------------------- */
+.game-container {
+  background: white;
+  border-radius: 20px;
+  padding: 18px 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  width: 100%;
+  position: relative;
+}
+
+.settings-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  background: #f8f0ff;
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+
+.settings-bar label {
+  font-size: 0.95em;
+  color: #555;
+  font-weight: bold;
+}
+
+.target-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.target-display {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.target-label {
+  font-size: 1em;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.target-number {
+  display: inline-block;
+  font-size: 2.8em;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #e040fb, #7c4dff);
+  border-radius: 50%;
+  width: 88px;
+  height: 88px;
+  line-height: 88px;
+  box-shadow: 0 8px 24px rgba(124, 77, 255, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1) }
+  50%       { transform: scale(1.05) }
+}
+
+.together-label {
+  font-size: 1.2em;
+  color: #7c4dff;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.grid {
+  display: grid;
+  gap: 0;
+  margin: 0 auto 18px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.25);
+  width: min(100%, 340px);
+  aspect-ratio: 1 / 1;
+  grid-auto-rows: 1fr;
+  overflow: hidden;
+}
+
+.grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+.tile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.6em;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  background: rgba(255, 248, 225, 0.92);
+  border: 1px solid rgba(247, 201, 72, 0.9);
+  color: #333;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s, background 0.25s;
+  user-select: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.tile .tile-text {
+  position: relative;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.tile.found::before    { opacity: 0; }
+.tile.found .tile-text { color: transparent; }
+
+.tile:hover:not(.found):not(.selected) {
+  transform: scale(1.08);
+  border-color: #e040fb;
+  background: #ffe0fb;
+}
+
+.tile.selected {
+  background: #80deea;
+  border-color: #00acc1;
+  transform: scale(1.12);
+}
+
+.tile.found {
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  cursor: default;
+  box-shadow: none;
+  opacity: 0.15;
+  pointer-events: none;
+  transition: opacity 0.35s ease, border-color 0.35s ease;
+}
+
+.tile.wrong {
+  background: #ef9a9a;
+  border-color: #c62828;
+  animation: wrongAnim 0.4s ease;
+}
+
+@keyframes wrongAnim {
+  0%, 100% { transform: translateX(0) }
+  20%       { transform: translateX(-6px) }
+  40%       { transform: translateX(6px) }
+  60%       { transform: translateX(-6px) }
+  80%       { transform: translateX(6px) }
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.score-box {
+  text-align: center;
+  background: #f3e5f5;
+  padding: 8px 14px;
+  border-radius: 12px;
+}
+
+.score-value {
+  font-size: 1.7em;
+  font-weight: bold;
+  color: #7c4dff;
+}
+
+.score-label {
+  font-size: 0.75em;
+  color: #888;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  min-height: 40px;
+  margin-bottom: 8px;
+}
+
+.message.good { color: #388e3c; }
+.message.bad  { color: #c62828; }
+.message.info { color: #7c4dff; }
+
+.progress-bar-outer {
+  background: #e0e0e0;
+  border-radius: 10px;
+  height: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #56ab2f, #a8e063);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.win-screen {
+  display: none;
+  text-align: center;
+  padding: 8px 16px 16px;
+}
+
+.win-screen.show { display: block; }
+
+.win-emoji {
+  font-size: 4em;
+  margin-bottom: 8px;
+  animation: bounce 0.8s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0) }
+  to   { transform: translateY(-18px) }
+}
+
+.win-title {
+  font-size: 1.8em;
+  color: #e040fb;
+  margin-bottom: 8px;
+}
+
+.win-stats {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.start-screen {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.start-screen p {
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.start-emoji {
+  font-size: 3.2em;
+  margin-bottom: 12px;
+}
+
+.confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: -20px;
+  opacity: 0.9;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   iPad  (600px – 1023px)
+   ============================================================ */
+@media (min-width: 600px) {
+  body {
+    padding: 24px 20px;
+  }
+
+  h1 {
+    font-size: 2.2em;
+  }
+
+  .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+  }
+
+  /* Startpagina */
+  .games-grid {
+    gap: 20px;
+    max-width: 560px;
+  }
+
+  .game-card {
+    width: calc(50% - 10px);
+  }
+
+  .card-image {
+    height: 160px;
+  }
+
+  /* Spelletje */
+  .game-container {
+    padding: 24px 20px;
+    max-width: 560px;
+  }
+
+  .settings-bar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    font-size: 1em;
+  }
+
+  .target-number {
+    font-size: 3.2em;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .grid {
+    width: min(100%, 460px);
+  }
+
+  .tile {
+    font-size: 1.9em;
+  }
+
+  .scoreboard {
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+
+  .score-value {
+    font-size: 1.9em;
+  }
+
+  .message {
+    font-size: 1.3em;
+  }
+
+  .win-emoji {
+    font-size: 4.5em;
+  }
+
+  .win-title {
+    font-size: 1.9em;
+  }
+
+  .start-emoji {
+    font-size: 3.6em;
+  }
+
+  .start-screen p {
+    font-size: 1.05em;
+  }
+}
+
+/* ============================================================
+   Laptop 16"  (≥ 1024px)
+   ============================================================ */
+@media (min-width: 1024px) {
+  body {
+    padding: 30px 20px;
+  }
+
+  h1 {
+    font-size: 2.6em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 1.1em;
+    margin-bottom: 40px;
+  }
+
+  /* Startpagina */
+  .games-grid {
+    gap: 24px;
+    max-width: 900px;
+  }
+
+  .game-card {
+    width: 260px;
+    border-radius: 24px;
+  }
+
+  .card-image {
+    height: 180px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1.4em;
+  }
+
+  .card-description {
+    font-size: 0.95em;
+  }
+
+  .card-footer {
+    padding: 0 20px 18px;
+  }
+
+  /* Spelletje */
+  .game-container {
+    padding: 30px;
+    max-width: 700px;
+    border-radius: 24px;
+  }
+
+  .settings-bar {
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    border-radius: 16px;
+  }
+
+  .settings-bar label {
+    font-size: 1em;
+  }
+
+  .btn {
+    padding: 10px 22px;
+    font-size: 1em;
+  }
+
+  .target-display {
+    margin-bottom: 24px;
+  }
+
+  .target-label {
+    font-size: 1.1em;
+  }
+
+  .target-number {
+    font-size: 3.5em;
+    width: 110px;
+    height: 110px;
+    line-height: 110px;
+  }
+
+  .together-label {
+    font-size: 1.3em;
+  }
+
+  .grid {
+    width: min(100%, 520px);
+    margin-bottom: 24px;
+    border-radius: 18px;
+  }
+
+  .tile {
+    font-size: 2.05em;
+  }
+
+  .scoreboard {
+    gap: 30px;
+    margin-bottom: 18px;
+  }
+
+  .score-box {
+    padding: 10px 22px;
+    border-radius: 14px;
+  }
+
+  .score-value {
+    font-size: 2em;
+  }
+
+  .score-label {
+    font-size: 0.8em;
+  }
+
+  .message {
+    font-size: 1.4em;
+    min-height: 44px;
+    margin-bottom: 10px;
+  }
+
+  .progress-bar-outer {
+    height: 14px;
+    margin-bottom: 18px;
+  }
+
+  .win-screen {
+    padding: 10px 20px 20px;
+  }
+
+  .win-emoji {
+    font-size: 5em;
+    margin-bottom: 10px;
+  }
+
+  .win-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .win-stats {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+  }
+
+  .start-screen {
+    padding: 20px 0;
+  }
+
+  .start-screen p {
+    font-size: 1.1em;
+    margin-bottom: 24px;
+  }
+
+  .start-emoji {
+    font-size: 4em;
+    margin-bottom: 14px;
+  }
+}
