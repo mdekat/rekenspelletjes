@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Optellen Oefenen</title>
+  <title>Aftrekken Oefenen</title>
   <style>
     * {
       box-sizing: border-box;
@@ -14,7 +14,7 @@
 
     body {
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
-      background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -49,13 +49,12 @@
       background: rgba(255,255,255,0.5);
     }
 
-    /* Level keuze */
     .level-bar {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      margin: 16px 0 24px;
+      margin: 16px 0 12px;
     }
 
     .level-btn {
@@ -78,11 +77,10 @@
 
     .level-btn.active {
       background: white;
-      color: #f7971e;
+      color: #11998e;
       border-color: white;
     }
 
-    /* Score balk */
     .score-bar {
       display: flex;
       gap: 24px;
@@ -101,7 +99,6 @@
       display: inline-block;
     }
 
-    /* Voortgangsbalk */
     .progress-wrap {
       width: 340px;
       max-width: 100%;
@@ -120,7 +117,6 @@
       width: 0%;
     }
 
-    /* Spelcontainer */
     .game-box {
       background: white;
       border-radius: 28px;
@@ -134,11 +130,10 @@
       gap: 28px;
     }
 
-    /* De som */
     .som-display {
       font-size: 3em;
       font-weight: bold;
-      color: #e65100;
+      color: #00695c;
       letter-spacing: 4px;
       text-align: center;
       min-height: 1.2em;
@@ -151,7 +146,6 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* Antwoord knoppen */
     .answers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -165,9 +159,9 @@
       font-weight: bold;
       padding: 18px 10px;
       border-radius: 18px;
-      border: 4px solid #ffe0b2;
-      background: #fff8e1;
-      color: #5d4037;
+      border: 4px solid #b2dfdb;
+      background: #e0f2f1;
+      color: #004d40;
       cursor: pointer;
       transition: transform 0.12s, background 0.15s, border-color 0.15s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -175,8 +169,8 @@
 
     .answer-btn:hover:not(:disabled) {
       transform: scale(1.07);
-      background: #fff3cd;
-      border-color: #ffc107;
+      background: #b2dfdb;
+      border-color: #26a69a;
     }
 
     .answer-btn:active:not(:disabled) {
@@ -212,19 +206,16 @@
       80%       { transform: translateX(6px); }
     }
 
-    /* Feedback tekst */
     .feedback {
       font-size: 1.2em;
       font-weight: bold;
       min-height: 1.4em;
       text-align: center;
-      transition: opacity 0.3s;
     }
 
     .feedback.goed  { color: #2e7d32; }
     .feedback.fout  { color: #c62828; }
 
-    /* Reeks beloning overlay */
     .reward-overlay {
       display: none;
       position: fixed;
@@ -234,7 +225,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 20px;
     }
 
     .reward-overlay.show {
@@ -258,7 +248,7 @@
 
     .reward-box h2 {
       font-size: 2em;
-      color: #e65100;
+      color: #11998e;
       margin-bottom: 8px;
     }
 
@@ -269,7 +259,7 @@
     }
 
     .reward-box .go-btn {
-      background: linear-gradient(135deg, #56ab2f, #a8e063);
+      background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
       font-family: inherit;
       font-size: 1.2em;
@@ -284,7 +274,6 @@
 
     .reward-box .go-btn:active { transform: scale(0.95); }
 
-    /* Confetti */
     .confetti-piece {
       position: fixed;
       width: 10px;
@@ -307,13 +296,12 @@
 
   <a class="back-link" href="../index.html">&#x2190; Terug</a>
 
-  <h1>&#x2795; Optellen Oefenen</h1>
-
-  <p style="color:white;font-size:1.05em;margin-bottom:16px;text-shadow:1px 1px 4px rgba(0,0,0,0.2);">Wat is de uitkomst van de optelssom?</p>
+  <h1>&#x2796; Aftrekken Oefenen</h1>
+  <p style="color:white;font-size:1.05em;margin-bottom:16px;text-shadow:1px 1px 4px rgba(0,0,0,0.2);">Wat is de uitkomst van de minsom?</p>
 
   <!-- Level keuze -->
   <div class="level-bar">
-    <span style="color:white;font-weight:bold;align-self:center;">Uitkomst tot:</span>
+    <span style="color:white;font-weight:bold;align-self:center;">Getallen tot:</span>
     <button class="level-btn" onclick="setLevel(5)">5</button>
     <button class="level-btn active" onclick="setLevel(10)">10</button>
     <button class="level-btn" onclick="setLevel(20)">20</button>
@@ -328,17 +316,15 @@
     <div class="score-item">&#x1F3AF; Reeks: <span id="scoreReeks">0</span>/10</div>
   </div>
 
-  <!-- Voortgangsbalk (reeks) -->
+  <!-- Voortgangsbalk -->
   <div class="progress-wrap">
     <div class="progress-bar" id="progressBar"></div>
   </div>
 
   <!-- Spelbox -->
   <div class="game-box">
-    <div class="som-display" id="somDisplay">3 + 4</div>
-    <div class="answers-grid" id="answersGrid">
-      <!-- knoppen worden via JS gegenereerd -->
-    </div>
+    <div class="som-display" id="somDisplay">7 - 3</div>
+    <div class="answers-grid" id="answersGrid"></div>
     <div class="feedback" id="feedback"></div>
   </div>
 
@@ -360,9 +346,8 @@
     const reeksDoelwit = 10;
 
     let juisteAntwoord = 0;
-    let bezig = false; // kort blokkeren na antwoord
+    let bezig = false;
 
-    const BEWERKINGEN = ['+'];
     const FEEDBACK_GOED = ['Super!', 'Goed zo!', 'Top!', 'Ja!', 'Bravo!', 'Prima!', 'Wauw!'];
     const FEEDBACK_FOUT = ['Helaas...', 'Niet goed!', 'Probeer opnieuw!', 'Oeps!'];
 
@@ -390,25 +375,15 @@
       document.getElementById('feedback').textContent = '';
       document.getElementById('feedback').className = 'feedback';
 
-      // Genereer een som
-      const bewerking = BEWERKINGEN[Math.floor(Math.random() * BEWERKINGEN.length)];
-      let a, b;
-      if (bewerking === '+') {
-        a = randomInt(1, niveau - 1);
-        b = randomInt(1, niveau - a);
-        juisteAntwoord = a + b;
-      } else {
-        a = randomInt(2, niveau);
-        b = randomInt(1, a - 1);
-        juisteAntwoord = a - b;
-      }
+      // a en b beide <= niveau, a > b zodat uitkomst positief is
+      const a = randomInt(2, niveau);
+      const b = randomInt(1, a - 1);
+      juisteAntwoord = a - b;
 
-      document.getElementById('somDisplay').textContent = `${a} ${bewerking} ${b}`;
+      document.getElementById('somDisplay').textContent = `${a} - ${b}`;
 
-      // Genereer 4 unieke antwoorden inclusief het juiste
       const opties = genereerOpties(juisteAntwoord, niveau);
 
-      // Render knoppen
       const grid = document.getElementById('answersGrid');
       grid.innerHTML = '';
       opties.forEach(optie => {
@@ -419,7 +394,6 @@
         grid.appendChild(btn);
       });
 
-      // hertrigger animatie
       const sd = document.getElementById('somDisplay');
       sd.style.animation = 'none';
       void sd.offsetWidth;
@@ -428,21 +402,17 @@
 
     function genereerOpties(juist, max) {
       const set = new Set([juist]);
-      const min = 0;
       let pogingen = 0;
       while (set.size < 4 && pogingen < 200) {
         pogingen++;
-        // kleine afwijking voor foutieve opties zodat ze geloofwaardig zijn
         const delta = randomInt(-Math.max(3, Math.floor(max / 5)), Math.max(3, Math.floor(max / 5)));
         const kandidaat = juist + delta;
-        if (kandidaat !== juist && kandidaat >= min && kandidaat <= max && !set.has(kandidaat)) {
+        if (kandidaat !== juist && kandidaat >= 0 && kandidaat <= max && !set.has(kandidaat)) {
           set.add(kandidaat);
         }
       }
-      // als er nog te weinig zijn: vul aan met willekeurige getallen
       while (set.size < 4) {
-        const kandidaat = randomInt(min, max);
-        set.add(kandidaat);
+        set.add(randomInt(0, max));
       }
       return shuffle([...set]);
     }
@@ -487,7 +457,7 @@
 
     function toonBeloning() {
       document.getElementById('rewardText').textContent =
-        `Je hebt ${reeksDoelwit} sommen goed beantwoord! 🎉`;
+        `Je hebt ${reeksDoelwit} minsommen goed beantwoord! 🎉`;
       document.getElementById('rewardOverlay').classList.add('show');
       launchConfetti();
     }
@@ -500,7 +470,7 @@
     }
 
     function launchConfetti() {
-      const colors = ['#ffd200','#f7971e','#56ab2f','#a8e063','#667eea','#ff6b6b','#48dbfb','#ff9ff3'];
+      const colors = ['#11998e','#38ef7d','#ffd200','#f7971e','#667eea','#ff6b6b','#48dbfb','#ff9ff3'];
       for (let i = 0; i < 90; i++) {
         const el = document.createElement('div');
         el.className = 'confetti-piece';
@@ -527,7 +497,6 @@
       return arr;
     }
 
-    // Start meteen
     nieuweVraag();
   </script>
 
