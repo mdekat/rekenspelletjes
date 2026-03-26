@@ -4,6 +4,30 @@ Alle versies en wijzigingen van de rekenspelletjes-website.
 
 ---
 
+## [v1.8.0] - 2026-03-26
+
+### Gewijzigd
+- Tellen in Groepjes: alleen het tientalsbord blijft als vraagtype (manden en springkikker verwijderd)
+- Tientalsbord toont altijd het volledige bord tot het niveau (gevulde + lege stippen); antwoord is het aantal gevulde stippen
+- Antwoordopties blijven altijd binnen 1 t/m het gekozen niveau
+- Ondersteuning voor niveaus tot 50 (mini-bordjes) en tot 100 (micro-bordjes)
+
+---
+
+## [v1.7.0] - 2026-03-26
+
+### Nieuw
+- Spel **Tellen in Groepjes** toegevoegd (`groepjes/groepjes-spel.html`)
+  - Drie wisselende vraagtypen door elkaar: tientalsbord, manden, springkikker
+  - **Tientalsbord**: stippen op 1×5 (tot 5), 2×5 (tot 10) of dubbel bord (tot 20); rood = 1–5, blauw = 6–10; stippen verschijnen één voor één
+  - **Manden**: manden van 5 of 10 appels + losse appels; visueel met emoji's
+  - **Springkikker**: kikker springt X stappen over een gekleurde getallenlijn
+  - Niveaus: tot 10, tot 20, tot 50, tot 100
+  - Zelfde beloningssysteem (6 animaties), voortgangsbalk en herhalingsbescherming
+- Startpagina bijgewerkt met kaart voor het nieuwe spel
+
+---
+
 ## [v1.6.0] - 2026-03-26
 
 ### Gewijzigd
