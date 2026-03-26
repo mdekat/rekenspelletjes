@@ -274,13 +274,10 @@
 
     .reward-box .go-btn:active { transform: scale(0.95); }
 
-    .confetti-piece {
+    /* Beloningsdeeltjes */
+    .deeltje {
       position: fixed;
-      width: 10px;
-      height: 14px;
-      top: -20px;
-      border-radius: 2px;
-      animation: confettiFall linear forwards;
+      pointer-events: none;
       z-index: 200;
     }
 
@@ -288,6 +285,30 @@
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
       80%  { opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes ballonOmhoog {
+      0%   { transform: translateY(0) translateX(0); opacity: 1; }
+      25%  { transform: translateY(-25vh) translateX(var(--sway)); }
+      50%  { transform: translateY(-55vh) translateX(0); }
+      75%  { transform: translateY(-80vh) translateX(calc(var(--sway) * -1)); }
+      100% { transform: translateY(-115vh) translateX(0); opacity: 0; }
+    }
+
+    @keyframes sterVal {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(600deg) scale(0.3); opacity: 0; }
+    }
+
+    @keyframes hartOmhoog {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      70%  { opacity: 0.9; }
+      100% { transform: translateY(-115vh) scale(0.4); opacity: 0; }
+    }
+
+    @keyframes vuurwerkDeeltje {
+      0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
     }
   </style>
 </head>
@@ -331,8 +352,8 @@
   <!-- Beloning overlay -->
   <div class="reward-overlay" id="rewardOverlay">
     <div class="reward-box">
-      <div class="star-row">&#x2B50;&#x1F389;&#x2B50;</div>
-      <h2>Geweldig!</h2>
+      <div class="star-row" id="rewardIcoon">&#x2B50;&#x1F389;&#x2B50;</div>
+      <h2 id="rewardTitel">Geweldig!</h2>
       <p id="rewardText">Je hebt 10 sommen goed!</p>
       <button class="go-btn" onclick="volgende()">&#x25B6; Nog meer sommen!</button>
     </div>
@@ -455,11 +476,21 @@
       el.className = 'feedback ' + cls;
     }
 
+    const BELONINGEN = [
+      { animatie: animConfetti,  icoon: '🎊 🎉 🎊', titel: 'Geweldig!' },
+      { animatie: animBallonnen, icoon: '🎈 🎈 🎈', titel: 'Zo goed gedaan!' },
+      { animatie: animVuurwerk,  icoon: '🎆 ✨ 🎆', titel: 'Knal goed!' },
+      { animatie: animSterren,   icoon: '⭐ 🌟 ⭐', titel: 'Sterspeler!' },
+      { animatie: animHarten,    icoon: '💖 💛 💜', titel: 'Fantastisch!' },
+    ];
+
     function toonBeloning() {
-      document.getElementById('rewardText').textContent =
-        `Je hebt ${reeksDoelwit} minsommen goed beantwoord! 🎉`;
+      const b = BELONINGEN[Math.floor(Math.random() * BELONINGEN.length)];
+      document.getElementById('rewardIcoon').textContent = b.icoon;
+      document.getElementById('rewardTitel').textContent = b.titel;
+      document.getElementById('rewardText').textContent = `Je hebt ${reeksDoelwit} minsommen goed beantwoord!`;
       document.getElementById('rewardOverlay').classList.add('show');
-      launchConfetti();
+      b.animatie();
     }
 
     function volgende() {
@@ -469,19 +500,99 @@
       nieuweVraag();
     }
 
-    function launchConfetti() {
+    function animConfetti() {
       const colors = ['#11998e','#38ef7d','#ffd200','#f7971e','#667eea','#ff6b6b','#48dbfb','#ff9ff3'];
       for (let i = 0; i < 90; i++) {
         const el = document.createElement('div');
-        el.className = 'confetti-piece';
+        el.className = 'deeltje';
         el.style.left = Math.random() * 100 + 'vw';
-        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.top = '-20px';
         el.style.width = (8 + Math.random() * 8) + 'px';
         el.style.height = (12 + Math.random() * 10) + 'px';
-        el.style.animationDuration = (1.2 + Math.random() * 2.5) + 's';
-        el.style.animationDelay = (Math.random() * 0.8) + 's';
+        el.style.borderRadius = '2px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animation = `confettiFall ${1.2 + Math.random() * 2.5}s ${Math.random() * 0.8}s linear forwards`;
         document.body.appendChild(el);
         el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animBallonnen() {
+      const kleuren = ['#ff6b6b','#ffd200','#56ab2f','#48dbfb','#ff9ff3','#a78bfa','#fb923c'];
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        const size = 30 + Math.random() * 30;
+        el.style.width = size + 'px';
+        el.style.height = (size * 1.25) + 'px';
+        el.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
+        el.style.background = kleuren[Math.floor(Math.random() * kleuren.length)];
+        el.style.left = (5 + Math.random() * 90) + 'vw';
+        el.style.bottom = '-60px';
+        el.style.top = 'auto';
+        el.style.setProperty('--sway', (Math.random() * 60 - 30) + 'px');
+        el.style.animation = `ballonOmhoog ${2.5 + Math.random() * 2}s ${Math.random() * 1.2}s ease-in forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animSterren() {
+      const emojis = ['⭐','🌟','✨','💫'];
+      for (let i = 0; i < 35; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.fontSize = (20 + Math.random() * 24) + 'px';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-40px';
+        el.style.lineHeight = 1;
+        el.style.animation = `sterVal ${1.5 + Math.random() * 2.5}s ${Math.random() * 1.2}s linear forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animHarten() {
+      const emojis = ['❤️','🧡','💛','💚','💙','💜','🩷'];
+      for (let i = 0; i < 25; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.fontSize = (22 + Math.random() * 22) + 'px';
+        el.style.left = (5 + Math.random() * 90) + 'vw';
+        el.style.bottom = '-50px';
+        el.style.top = 'auto';
+        el.style.lineHeight = 1;
+        el.style.animation = `hartOmhoog ${2 + Math.random() * 2.5}s ${Math.random() * 1.5}s ease-out forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animVuurwerk() {
+      const colors = ['#ffd200','#ff6b6b','#48dbfb','#ff9ff3','#56ab2f','#a78bfa','#fb923c','white'];
+      for (let e = 0; e < 4; e++) {
+        const cx = 15 + Math.random() * 70;
+        const cy = 10 + Math.random() * 55;
+        const delayBase = e * 0.45;
+        for (let i = 0; i < 18; i++) {
+          const angle = (i / 18) * 2 * Math.PI;
+          const dist = 80 + Math.random() * 120;
+          const el = document.createElement('div');
+          el.className = 'deeltje';
+          el.style.left = cx + 'vw';
+          el.style.top = cy + 'vh';
+          el.style.width = (6 + Math.random() * 6) + 'px';
+          el.style.height = (6 + Math.random() * 6) + 'px';
+          el.style.borderRadius = '50%';
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+          el.style.animation = `vuurwerkDeeltje ${0.6 + Math.random() * 0.5}s ${delayBase}s ease-out forwards`;
+          document.body.appendChild(el);
+          el.addEventListener('animationend', () => el.remove());
+        }
       }
     }
 
