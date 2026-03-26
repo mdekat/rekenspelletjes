@@ -274,12 +274,35 @@
 
     .reward-box .go-btn:active { transform: scale(0.95); }
 
+    /* Tablet / iPad (601–1024px) */
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .game-box { width: 420px; }
+      .progress-wrap { width: 420px; }
+    }
+
+    /* Smartphone (≤ 600px) */
+    @media (max-width: 600px) {
+      body { padding: 16px 10px 32px; }
+      h1 { font-size: 1.7em; }
+      .back-link { font-size: 0.82em; padding: 6px 11px; top: 12px; left: 12px; }
+      .level-bar { gap: 7px; margin: 12px 0 16px; }
+      .level-btn { padding: 6px 14px; font-size: 0.9em; }
+      .score-bar { gap: 10px; font-size: 0.88em; flex-wrap: wrap; }
+      .progress-wrap { width: 100%; }
+      .game-box { padding: 20px 14px 18px; }
+      .som-display { font-size: 2.1em; letter-spacing: 2px; }
+      .answer-btn { font-size: 1.4em; padding: 14px 8px; border-radius: 14px; }
+      .reward-box { padding: 28px 24px; }
+      .reward-box h2 { font-size: 1.6em; }
+    }
+
     /* Beloningsdeeltjes */
     .deeltje {
       position: fixed;
       pointer-events: none;
       z-index: 200;
     }
+
 
     @keyframes confettiFall {
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -295,20 +318,34 @@
       100% { transform: translateY(-115vh) translateX(0); opacity: 0; }
     }
 
-    @keyframes sterVal {
-      0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(600deg) scale(0.3); opacity: 0; }
-    }
-
-    @keyframes hartOmhoog {
-      0%   { transform: translateY(0) scale(1); opacity: 1; }
-      70%  { opacity: 0.9; }
-      100% { transform: translateY(-115vh) scale(0.4); opacity: 0; }
-    }
-
     @keyframes vuurwerkDeeltje {
       0%   { transform: translate(0, 0) scale(1); opacity: 1; }
       100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    @keyframes rollenOver {
+      0%   { transform: translate(-80px, 0) rotate(0deg); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { transform: translate(110vw, 0) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes explosieBurst {
+      0%   { transform: translate(0, 0) scale(0.2); opacity: 1; }
+      40%  { transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)) scale(1.4); }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0.1); opacity: 0; }
+    }
+
+    @keyframes paradeDier {
+      0%   { transform: translate(-80px, 0); opacity: 0; }
+      6%   { opacity: 1; }
+      15%  { transform: translate(10vw,  -45px); }
+      30%  { transform: translate(27vw,    5px); }
+      45%  { transform: translate(44vw,  -45px); }
+      60%  { transform: translate(61vw,    5px); }
+      75%  { transform: translate(78vw,  -45px); }
+      90%  { transform: translate(93vw,    5px); opacity: 1; }
+      100% { transform: translate(115vw, -20px); opacity: 0; }
     }
   </style>
 </head>
@@ -368,6 +405,7 @@
 
     let juisteAntwoord = 0;
     let bezig = false;
+    let vorigeSom = '';
 
     const FEEDBACK_GOED = ['Super!', 'Goed zo!', 'Top!', 'Ja!', 'Bravo!', 'Prima!', 'Wauw!'];
     const FEEDBACK_FOUT = ['Helaas...', 'Niet goed!', 'Probeer opnieuw!', 'Oeps!'];
@@ -396,12 +434,17 @@
       document.getElementById('feedback').textContent = '';
       document.getElementById('feedback').className = 'feedback';
 
-      // a en b beide <= niveau, a > b zodat uitkomst positief is
-      const a = randomInt(2, niveau);
-      const b = randomInt(1, a - 1);
+      // a en b beide <= niveau, a > b zodat uitkomst positief is (niet dezelfde som als vorige)
+      let a, b, somTekst;
+      do {
+        a = randomInt(2, niveau);
+        b = randomInt(1, a - 1);
+        somTekst = `${a} - ${b}`;
+      } while (somTekst === vorigeSom);
       juisteAntwoord = a - b;
+      vorigeSom = somTekst;
 
-      document.getElementById('somDisplay').textContent = `${a} - ${b}`;
+      document.getElementById('somDisplay').textContent = somTekst;
 
       const opties = genereerOpties(juisteAntwoord, niveau);
 
@@ -480,8 +523,9 @@
       { animatie: animConfetti,  icoon: '🎊 🎉 🎊', titel: 'Geweldig!' },
       { animatie: animBallonnen, icoon: '🎈 🎈 🎈', titel: 'Zo goed gedaan!' },
       { animatie: animVuurwerk,  icoon: '🎆 ✨ 🎆', titel: 'Knal goed!' },
-      { animatie: animSterren,   icoon: '⭐ 🌟 ⭐', titel: 'Sterspeler!' },
-      { animatie: animHarten,    icoon: '💖 💛 💜', titel: 'Fantastisch!' },
+      { animatie: animRollen,    icoon: '⚽ 🎾 🏀',  titel: 'Op rooooool!' },
+      { animatie: animExplosie,  icoon: '💥 🌟 💥',  titel: 'Boem! Fantastisch!' },
+      { animatie: animParade,    icoon: '🦄 🐸 🦊',  titel: 'Feestparade!' },
     ];
 
     function toonBeloning() {
@@ -517,54 +561,32 @@
       }
     }
 
+    function ballonSVG(kleur) {
+      return `<svg viewBox="0 0 100 145" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <ellipse cx="50" cy="50" rx="42" ry="46" fill="${kleur}"/>
+        <path d="M50 96 Q43 107 50 112 Q57 107 50 96" fill="${kleur}"/>
+        <ellipse cx="31" cy="29" rx="13" ry="8" fill="rgba(255,255,255,0.45)" transform="rotate(-30 31 29)"/>
+        <ellipse cx="27" cy="42" rx="5" ry="3" fill="rgba(255,255,255,0.2)" transform="rotate(-30 27 42)"/>
+        <path d="M50 112 Q46 118 50 122 Q54 118 50 112" fill="rgba(0,0,0,0.28)"/>
+        <path d="M50 122 Q41 133 50 145" stroke="rgba(0,0,0,0.25)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>`;
+    }
+
     function animBallonnen() {
-      const kleuren = ['#ff6b6b','#ffd200','#56ab2f','#48dbfb','#ff9ff3','#a78bfa','#fb923c'];
-      for (let i = 0; i < 18; i++) {
+      const kleuren = ['#ff6b6b','#ffd200','#56ab2f','#48dbfb','#ff9ff3','#a78bfa','#fb923c','#f97316'];
+      for (let i = 0; i < 16; i++) {
+        const kleur = kleuren[Math.floor(Math.random() * kleuren.length)];
         const el = document.createElement('div');
         el.className = 'deeltje';
-        const size = 30 + Math.random() * 30;
+        const size = 52 + Math.random() * 32;
         el.style.width = size + 'px';
-        el.style.height = (size * 1.25) + 'px';
-        el.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
-        el.style.background = kleuren[Math.floor(Math.random() * kleuren.length)];
-        el.style.left = (5 + Math.random() * 90) + 'vw';
-        el.style.bottom = '-60px';
+        el.style.height = (size * 1.45) + 'px';
+        el.innerHTML = ballonSVG(kleur);
+        el.style.left = (3 + Math.random() * 94) + 'vw';
+        el.style.bottom = '-130px';
         el.style.top = 'auto';
-        el.style.setProperty('--sway', (Math.random() * 60 - 30) + 'px');
-        el.style.animation = `ballonOmhoog ${2.5 + Math.random() * 2}s ${Math.random() * 1.2}s ease-in forwards`;
-        document.body.appendChild(el);
-        el.addEventListener('animationend', () => el.remove());
-      }
-    }
-
-    function animSterren() {
-      const emojis = ['⭐','🌟','✨','💫'];
-      for (let i = 0; i < 35; i++) {
-        const el = document.createElement('div');
-        el.className = 'deeltje';
-        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        el.style.fontSize = (20 + Math.random() * 24) + 'px';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.top = '-40px';
-        el.style.lineHeight = 1;
-        el.style.animation = `sterVal ${1.5 + Math.random() * 2.5}s ${Math.random() * 1.2}s linear forwards`;
-        document.body.appendChild(el);
-        el.addEventListener('animationend', () => el.remove());
-      }
-    }
-
-    function animHarten() {
-      const emojis = ['❤️','🧡','💛','💚','💙','💜','🩷'];
-      for (let i = 0; i < 25; i++) {
-        const el = document.createElement('div');
-        el.className = 'deeltje';
-        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        el.style.fontSize = (22 + Math.random() * 22) + 'px';
-        el.style.left = (5 + Math.random() * 90) + 'vw';
-        el.style.bottom = '-50px';
-        el.style.top = 'auto';
-        el.style.lineHeight = 1;
-        el.style.animation = `hartOmhoog ${2 + Math.random() * 2.5}s ${Math.random() * 1.5}s ease-out forwards`;
+        el.style.setProperty('--sway', (Math.random() * 90 - 45) + 'px');
+        el.style.animation = `ballonOmhoog ${2.8 + Math.random() * 2}s ${Math.random() * 1.4}s ease-in forwards`;
         document.body.appendChild(el);
         el.addEventListener('animationend', () => el.remove());
       }
@@ -572,28 +594,83 @@
 
     function animVuurwerk() {
       const colors = ['#ffd200','#ff6b6b','#48dbfb','#ff9ff3','#56ab2f','#a78bfa','#fb923c','white'];
-      for (let e = 0; e < 4; e++) {
-        const cx = 15 + Math.random() * 70;
-        const cy = 10 + Math.random() * 55;
-        const delayBase = e * 0.45;
-        for (let i = 0; i < 18; i++) {
-          const angle = (i / 18) * 2 * Math.PI;
-          const dist = 80 + Math.random() * 120;
+      for (let e = 0; e < 5; e++) {
+        const cx = 10 + Math.random() * 80;
+        const cy = 8 + Math.random() * 60;
+        const delayBase = e * 0.4;
+        for (let i = 0; i < 20; i++) {
+          const angle = (i / 20) * 2 * Math.PI;
+          const dist = 90 + Math.random() * 140;
           const el = document.createElement('div');
           el.className = 'deeltje';
           el.style.left = cx + 'vw';
           el.style.top = cy + 'vh';
-          el.style.width = (6 + Math.random() * 6) + 'px';
-          el.style.height = (6 + Math.random() * 6) + 'px';
+          el.style.width = (6 + Math.random() * 7) + 'px';
+          el.style.height = (6 + Math.random() * 7) + 'px';
           el.style.borderRadius = '50%';
           el.style.background = colors[Math.floor(Math.random() * colors.length)];
           el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
           el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
-          el.style.animation = `vuurwerkDeeltje ${0.6 + Math.random() * 0.5}s ${delayBase}s ease-out forwards`;
+          el.style.animation = `vuurwerkDeeltje ${0.7 + Math.random() * 0.6}s ${delayBase}s ease-out forwards`;
           document.body.appendChild(el);
           el.addEventListener('animationend', () => el.remove());
         }
       }
+    }
+
+    function animRollen() {
+      const emojis = ['⚽','🏀','🎾','🎱','🏈','🌈','⭐','🎯','🎳','🍭'];
+      const shuffled = shuffle([...emojis]);
+      for (let i = 0; i < 7; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = shuffled[i % shuffled.length];
+        el.style.fontSize = (30 + Math.random() * 28) + 'px';
+        el.style.top = (15 + Math.random() * 65) + 'vh';
+        el.style.left = '0';
+        el.style.lineHeight = 1;
+        el.style.animation = `rollenOver ${1.6 + Math.random() * 1.8}s ${i * 0.28}s linear forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animExplosie() {
+      const emojis = ['⭐','🌟','✨','💥','🎊','🎉','💫','🔥','🎈','🏆'];
+      const count = 22;
+      for (let i = 0; i < count; i++) {
+        const angle = (i / count) * 2 * Math.PI + (Math.random() - 0.5) * 0.4;
+        const dist = 140 + Math.random() * 180;
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.fontSize = (22 + Math.random() * 22) + 'px';
+        el.style.left = '50vw';
+        el.style.top = '50vh';
+        el.style.lineHeight = 1;
+        el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        el.style.animation = `explosieBurst ${0.9 + Math.random() * 0.7}s ${Math.random() * 0.25}s ease-out forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animParade() {
+      const dieren = ['🦄','🐸','🦊','🐻','🦁','🐧','🐼','🐨','🦋','🐬'];
+      const keuze = shuffle([...dieren]).slice(0, 6);
+      keuze.forEach((dier, i) => {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = dier;
+        el.style.fontSize = (40 + Math.random() * 16) + 'px';
+        el.style.top = (40 + Math.random() * 20) + 'vh';
+        el.style.left = '0';
+        el.style.lineHeight = 1;
+        el.style.animation = `paradeDier ${3.2 + Math.random() * 0.8}s ${i * 0.45}s ease-in-out forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      });
     }
 
     function randomInt(min, max) {

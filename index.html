@@ -113,6 +113,20 @@
     .play-btn:active {
       transform: scale(0.95);
     }
+
+    /* Tablet / iPad (601–1024px) */
+    @media (max-width: 1024px) {
+      .game-card { width: 220px; }
+    }
+
+    /* Smartphone (≤ 600px) */
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 2em; }
+      .games-grid { gap: 16px; }
+      .game-card { width: 100%; max-width: 360px; }
+      .card-image { height: 160px; }
+    }
   </style>
 </head>
 
@@ -133,7 +147,7 @@
       </div>
     </a>
 
-    <a class="game-card" href="sommen/sommen-spel.html">
+    <a class="game-card" href="optellen/optellen-spel.html">
       <img class="card-image" src="img/vierkant/bear_square.jpg" alt="Optellen oefenen">
       <div class="card-body">
         <div class="card-title">&#x2795; Optellen</div>

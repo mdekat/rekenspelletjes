@@ -4,6 +4,33 @@ Alle versies en wijzigingen van de rekenspelletjes-website.
 
 ---
 
+## [v1.6.0] - 2026-03-26
+
+### Gewijzigd
+- Optellen & aftrekken: dezelfde som kan niet twee keer achter elkaar verschijnen
+- Responsive design toegevoegd voor smartphone (≤ 600px) en tablet/iPad (601–1024px) in alle vier pagina's
+- SVG-ballonnen: echte ballonvorm met glansje, knoopje en touwtje
+- Beloningsanimaties uitgebreid: rollende emoji's, explosie vanuit midden, dierenparade
+- Map hernoemd: `sommen/` → `optellen/`, bestand → `optellen-spel.html`
+- claude.md herschreven met viewport-richtlijnen en projectstructuur
+
+---
+
+## [v1.5.0] - 2026-03-26
+
+### Gewijzigd
+- Map `sommen/` hernoemd naar `optellen/`, bestand naar `optellen-spel.html`
+- Beloningsanimaties uitgebreid van 5 naar 6 gevarieerde effecten:
+  - **Confetti** – gekleurde stukjes vallen naar beneden
+  - **Ballonnen** – stijgen op vanaf de onderkant met slingerbewering
+  - **Vuurwerk** – 5 explosies op willekeurige plekken op het scherm
+  - **Rollen** – emoji's rollen van links naar rechts over het scherm
+  - **Explosie** – emoji's spatten vanuit het midden van het scherm alle kanten op
+  - **Parade** – dieren-emoji's stuiteren in een optocht van links naar rechts
+- Elke beloning heeft eigen icoon en bijpassende tekst in de popup
+
+---
+
 ## [v1.3.0] - 2026-03-26
 
 ### Nieuw
