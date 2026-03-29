@@ -5,7 +5,129 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rekenspelletjes</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.6em;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #ffe0f0;
+      font-size: 1.1em;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .games-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .game-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 260px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+    }
+
+    .game-card:active {
+      transform: scale(0.97);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #7c4dff;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 0.95em;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      padding: 0 20px 18px;
+    }
+
+    .play-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #56ab2f, #a8e063);
+      color: white;
+      font-family: inherit;
+      font-size: 1em;
+      font-weight: bold;
+      padding: 10px 24px;
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .play-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Tablet / iPad (601–1024px) */
+    @media (max-width: 1024px) {
+      .game-card { width: 220px; }
+    }
+
+    /* Smartphone (≤ 600px) */
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 2em; }
+      .games-grid { gap: 16px; }
+      .game-card { width: 100%; max-width: 360px; }
+      .card-image { height: 160px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -19,6 +141,39 @@
       <div class="card-body">
         <div class="card-title">&#x2702;&#xFE0F; Splitsen</div>
         <div class="card-description">Zoek twee getallen die samen het gevraagde getal vormen. Hoeveel paren vind jij?</div>
+      </div>
+      <div class="card-footer">
+        <span class="play-btn">&#x25B6; Spelen!</span>
+      </div>
+    </a>
+
+    <a class="game-card" href="optellen/optellen-spel.html">
+      <img class="card-image" src="img/vierkant/bear_square.jpg" alt="Optellen oefenen">
+      <div class="card-body">
+        <div class="card-title">&#x2795; Optellen</div>
+        <div class="card-description">Kies een niveau en beantwoord de optelsommen. Raak jij 10 op rij goed?</div>
+      </div>
+      <div class="card-footer">
+        <span class="play-btn">&#x25B6; Spelen!</span>
+      </div>
+    </a>
+
+    <a class="game-card" href="aftrekken/aftrekken-spel.html">
+      <img class="card-image" src="img/vierkant/kittens_square.jpg" alt="Aftrekken oefenen">
+      <div class="card-body">
+        <div class="card-title">&#x2796; Aftrekken</div>
+        <div class="card-description">Kies hoe groot de getallen mogen zijn en beantwoord de minsommen. Raak jij 10 op rij goed?</div>
+      </div>
+      <div class="card-footer">
+        <span class="play-btn">&#x25B6; Spelen!</span>
+      </div>
+    </a>
+
+    <a class="game-card" href="groepjes/groepjes-spel.html">
+      <img class="card-image" src="img/vierkant/kittens2_square.jpg" alt="Tellen in groepjes">
+      <div class="card-body">
+        <div class="card-title">&#x1F9EE; Tellen in Groepjes</div>
+        <div class="card-description">Tel stippen op een tientalsbord. Oefen met 5-tallen en 10-tallen!</div>
       </div>
       <div class="card-footer">
         <span class="play-btn">&#x25B6; Spelen!</span>

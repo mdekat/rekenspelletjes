@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optellen Oefenen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+      background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 40px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.2em;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(255,255,255,0.3);
+      color: white;
+      font-family: inherit;
+      font-size: 0.95em;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .back-link:hover {
+      background: rgba(255,255,255,0.5);
+    }
+
+    /* Level keuze */
+    .level-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 16px 0 24px;
+    }
+
+    .level-btn {
+      background: rgba(255,255,255,0.35);
+      color: white;
+      font-family: inherit;
+      font-size: 1em;
+      font-weight: bold;
+      border: 3px solid rgba(255,255,255,0.6);
+      border-radius: 14px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .level-btn:hover {
+      background: rgba(255,255,255,0.55);
+      transform: scale(1.06);
+    }
+
+    .level-btn.active {
+      background: white;
+      color: #f7971e;
+      border-color: white;
+    }
+
+    /* Score balk */
+    .score-bar {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 1.05em;
+      font-weight: bold;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .score-item span {
+      background: rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 4px 14px;
+      display: inline-block;
+    }
+
+    /* Voortgangsbalk */
+    .progress-wrap {
+      width: 340px;
+      max-width: 100%;
+      background: rgba(255,255,255,0.3);
+      border-radius: 20px;
+      height: 14px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 20px;
+      background: white;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* Spelcontainer */
+    .game-box {
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      padding: 36px 32px 32px;
+      width: 360px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* De som */
+    .som-display {
+      font-size: 3em;
+      font-weight: bold;
+      color: #e65100;
+      letter-spacing: 4px;
+      text-align: center;
+      min-height: 1.2em;
+      animation: popIn 0.25s ease;
+    }
+
+    @keyframes popIn {
+      0%   { transform: scale(0.7); opacity: 0.4; }
+      70%  { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Antwoord knoppen */
+    .answers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .answer-btn {
+      font-family: inherit;
+      font-size: 1.7em;
+      font-weight: bold;
+      padding: 18px 10px;
+      border-radius: 18px;
+      border: 4px solid #ffe0b2;
+      background: #fff8e1;
+      color: #5d4037;
+      cursor: pointer;
+      transition: transform 0.12s, background 0.15s, border-color 0.15s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .answer-btn:hover:not(:disabled) {
+      transform: scale(1.07);
+      background: #fff3cd;
+      border-color: #ffc107;
+    }
+
+    .answer-btn:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+
+    .answer-btn.goed {
+      background: #c8e6c9;
+      border-color: #43a047;
+      color: #1b5e20;
+      animation: bounce 0.35s ease;
+    }
+
+    .answer-btn.fout {
+      background: #ffcdd2;
+      border-color: #e53935;
+      color: #7f0000;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes bounce {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.15); }
+      70%  { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-8px); }
+      40%       { transform: translateX(8px); }
+      60%       { transform: translateX(-6px); }
+      80%       { transform: translateX(6px); }
+    }
+
+    /* Feedback tekst */
+    .feedback {
+      font-size: 1.2em;
+      font-weight: bold;
+      min-height: 1.4em;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+
+    .feedback.goed  { color: #2e7d32; }
+    .feedback.fout  { color: #c62828; }
+
+    /* Reeks beloning overlay */
+    .reward-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .reward-overlay.show {
+      display: flex;
+    }
+
+    .reward-box {
+      background: white;
+      border-radius: 32px;
+      padding: 40px 48px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      animation: popIn 0.4s ease;
+    }
+
+    .reward-box .star-row {
+      font-size: 2.6em;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .reward-box h2 {
+      font-size: 2em;
+      color: #e65100;
+      margin-bottom: 8px;
+    }
+
+    .reward-box p {
+      font-size: 1.15em;
+      color: #555;
+      margin-bottom: 24px;
+    }
+
+    .reward-box .go-btn {
+      background: linear-gradient(135deg, #56ab2f, #a8e063);
+      color: white;
+      font-family: inherit;
+      font-size: 1.2em;
+      font-weight: bold;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      transition: transform 0.1s;
+    }
+
+    .reward-box .go-btn:active { transform: scale(0.95); }
+
+    /* Tablet / iPad (601–1024px) */
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .game-box { width: 420px; }
+      .progress-wrap { width: 420px; }
+    }
+
+    /* Smartphone (≤ 600px) */
+    @media (max-width: 600px) {
+      body { padding: 16px 10px 32px; }
+      h1 { font-size: 1.7em; }
+      .back-link { font-size: 0.82em; padding: 6px 11px; top: 12px; left: 12px; }
+      .level-bar { gap: 7px; margin: 12px 0 16px; }
+      .level-btn { padding: 6px 14px; font-size: 0.9em; }
+      .score-bar { gap: 10px; font-size: 0.88em; flex-wrap: wrap; }
+      .progress-wrap { width: 100%; }
+      .game-box { padding: 20px 14px 18px; }
+      .som-display { font-size: 2.1em; letter-spacing: 2px; }
+      .answer-btn { font-size: 1.4em; padding: 14px 8px; border-radius: 14px; }
+      .reward-box { padding: 28px 24px; }
+      .reward-box h2 { font-size: 1.6em; }
+    }
+
+    /* Beloningsdeeltjes */
+    .deeltje {
+      position: fixed;
+      pointer-events: none;
+      z-index: 200;
+    }
+
+
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      80%  { opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes ballonOmhoog {
+      0%   { transform: translateY(0) translateX(0); opacity: 1; }
+      25%  { transform: translateY(-25vh) translateX(var(--sway)); }
+      50%  { transform: translateY(-55vh) translateX(0); }
+      75%  { transform: translateY(-80vh) translateX(calc(var(--sway) * -1)); }
+      100% { transform: translateY(-115vh) translateX(0); opacity: 0; }
+    }
+
+    @keyframes vuurwerkDeeltje {
+      0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    @keyframes rollenOver {
+      0%   { transform: translate(-80px, 0) rotate(0deg); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { transform: translate(110vw, 0) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes explosieBurst {
+      0%   { transform: translate(0, 0) scale(0.2); opacity: 1; }
+      40%  { transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)) scale(1.4); }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0.1); opacity: 0; }
+    }
+
+    @keyframes paradeDier {
+      0%   { transform: translate(-80px, 0); opacity: 0; }
+      6%   { opacity: 1; }
+      15%  { transform: translate(10vw,  -45px); }
+      30%  { transform: translate(27vw,    5px); }
+      45%  { transform: translate(44vw,  -45px); }
+      60%  { transform: translate(61vw,    5px); }
+      75%  { transform: translate(78vw,  -45px); }
+      90%  { transform: translate(93vw,    5px); opacity: 1; }
+      100% { transform: translate(115vw, -20px); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="back-link" href="../index.html">&#x2190; Terug</a>
+
+  <h1>&#x2795; Optellen Oefenen</h1>
+
+  <p style="color:white;font-size:1.05em;margin-bottom:16px;text-shadow:1px 1px 4px rgba(0,0,0,0.2);">Wat is de uitkomst van de optelssom?</p>
+
+  <!-- Level keuze -->
+  <div class="level-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Uitkomst tot:</span>
+    <button class="level-btn" onclick="setLevel(5)">5</button>
+    <button class="level-btn active" onclick="setLevel(10)">10</button>
+    <button class="level-btn" onclick="setLevel(20)">20</button>
+    <button class="level-btn" onclick="setLevel(50)">50</button>
+    <button class="level-btn" onclick="setLevel(100)">100</button>
+  </div>
+
+  <!-- Score -->
+  <div class="score-bar">
+    <div class="score-item">&#x2705; Goed: <span id="scoreGoed">0</span></div>
+    <div class="score-item">&#x274C; Fout: <span id="scoreFout">0</span></div>
+    <div class="score-item">&#x1F3AF; Reeks: <span id="scoreReeks">0</span>/10</div>
+  </div>
+
+  <!-- Voortgangsbalk (reeks) -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Spelbox -->
+  <div class="game-box">
+    <div class="som-display" id="somDisplay">3 + 4</div>
+    <div class="answers-grid" id="answersGrid">
+      <!-- knoppen worden via JS gegenereerd -->
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Beloning overlay -->
+  <div class="reward-overlay" id="rewardOverlay">
+    <div class="reward-box">
+      <div class="star-row" id="rewardIcoon">&#x2B50;&#x1F389;&#x2B50;</div>
+      <h2 id="rewardTitel">Geweldig!</h2>
+      <p id="rewardText">Je hebt 10 sommen goed!</p>
+      <button class="go-btn" onclick="volgende()">&#x25B6; Nog meer sommen!</button>
+    </div>
+  </div>
+
+  <script>
+    let niveau = 10;
+    let goed = 0;
+    let fout = 0;
+    let reeks = 0;
+    const reeksDoelwit = 10;
+
+    let juisteAntwoord = 0;
+    let bezig = false; // kort blokkeren na antwoord
+    let vorigeSom = '';
+
+    const BEWERKINGEN = ['+'];
+    const FEEDBACK_GOED = ['Super!', 'Goed zo!', 'Top!', 'Ja!', 'Bravo!', 'Prima!', 'Wauw!'];
+    const FEEDBACK_FOUT = ['Helaas...', 'Niet goed!', 'Probeer opnieuw!', 'Oeps!'];
+
+    function setLevel(n) {
+      niveau = n;
+      document.querySelectorAll('.level-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent == n);
+      });
+      reeks = 0;
+      goed = 0;
+      fout = 0;
+      updateScore();
+      nieuweVraag();
+    }
+
+    function updateScore() {
+      document.getElementById('scoreGoed').textContent = goed;
+      document.getElementById('scoreFout').textContent = fout;
+      document.getElementById('scoreReeks').textContent = reeks;
+      document.getElementById('progressBar').style.width = (reeks / reeksDoelwit * 100) + '%';
+    }
+
+    function nieuweVraag() {
+      bezig = false;
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('feedback').className = 'feedback';
+
+      // Genereer een som (niet dezelfde als de vorige)
+      let a, b, bewerking, somTekst;
+      do {
+        bewerking = BEWERKINGEN[Math.floor(Math.random() * BEWERKINGEN.length)];
+        if (bewerking === '+') {
+          a = randomInt(1, niveau - 1);
+          b = randomInt(1, niveau - a);
+          juisteAntwoord = a + b;
+        } else {
+          a = randomInt(2, niveau);
+          b = randomInt(1, a - 1);
+          juisteAntwoord = a - b;
+        }
+        somTekst = `${a} ${bewerking} ${b}`;
+      } while (somTekst === vorigeSom);
+      vorigeSom = somTekst;
+
+      document.getElementById('somDisplay').textContent = somTekst;
+
+      // Genereer 4 unieke antwoorden inclusief het juiste
+      const opties = genereerOpties(juisteAntwoord, niveau);
+
+      // Render knoppen
+      const grid = document.getElementById('answersGrid');
+      grid.innerHTML = '';
+      opties.forEach(optie => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.textContent = optie;
+        btn.onclick = () => kiesAntwoord(btn, optie);
+        grid.appendChild(btn);
+      });
+
+      // hertrigger animatie
+      const sd = document.getElementById('somDisplay');
+      sd.style.animation = 'none';
+      void sd.offsetWidth;
+      sd.style.animation = '';
+    }
+
+    function genereerOpties(juist, max) {
+      const set = new Set([juist]);
+      const min = 0;
+      let pogingen = 0;
+      while (set.size < 4 && pogingen < 200) {
+        pogingen++;
+        // kleine afwijking voor foutieve opties zodat ze geloofwaardig zijn
+        const delta = randomInt(-Math.max(3, Math.floor(max / 5)), Math.max(3, Math.floor(max / 5)));
+        const kandidaat = juist + delta;
+        if (kandidaat !== juist && kandidaat >= min && kandidaat <= max && !set.has(kandidaat)) {
+          set.add(kandidaat);
+        }
+      }
+      // als er nog te weinig zijn: vul aan met willekeurige getallen
+      while (set.size < 4) {
+        const kandidaat = randomInt(min, max);
+        set.add(kandidaat);
+      }
+      return shuffle([...set]);
+    }
+
+    function kiesAntwoord(btn, waarde) {
+      if (bezig) return;
+      bezig = true;
+
+      const alleKnoppen = document.querySelectorAll('.answer-btn');
+      alleKnoppen.forEach(b => b.disabled = true);
+
+      if (waarde === juisteAntwoord) {
+        btn.classList.add('goed');
+        goed++;
+        reeks++;
+        toonFeedback(FEEDBACK_GOED, 'goed');
+        updateScore();
+
+        if (reeks >= reeksDoelwit) {
+          setTimeout(() => toonBeloning(), 700);
+        } else {
+          setTimeout(() => nieuweVraag(), 900);
+        }
+      } else {
+        btn.classList.add('fout');
+        fout++;
+        toonFeedback(FEEDBACK_FOUT, 'fout');
+        updateScore();
+        setTimeout(() => {
+          btn.classList.remove('fout');
+          alleKnoppen.forEach(b => b.disabled = false);
+          bezig = false;
+        }, 700);
+      }
+    }
+
+    function toonFeedback(lijstje, cls) {
+      const el = document.getElementById('feedback');
+      el.textContent = lijstje[Math.floor(Math.random() * lijstje.length)];
+      el.className = 'feedback ' + cls;
+    }
+
+    const BELONINGEN = [
+      { animatie: animConfetti,  icoon: '🎊 🎉 🎊', titel: 'Geweldig!' },
+      { animatie: animBallonnen, icoon: '🎈 🎈 🎈', titel: 'Zo goed gedaan!' },
+      { animatie: animVuurwerk,  icoon: '🎆 ✨ 🎆', titel: 'Knal goed!' },
+      { animatie: animRollen,    icoon: '⚽ 🎾 🏀',  titel: 'Op rooooool!' },
+      { animatie: animExplosie,  icoon: '💥 🌟 💥',  titel: 'Boem! Fantastisch!' },
+      { animatie: animParade,    icoon: '🦄 🐸 🦊',  titel: 'Feestparade!' },
+    ];
+
+    function toonBeloning() {
+      const b = BELONINGEN[Math.floor(Math.random() * BELONINGEN.length)];
+      document.getElementById('rewardIcoon').textContent = b.icoon;
+      document.getElementById('rewardTitel').textContent = b.titel;
+      document.getElementById('rewardText').textContent = `Je hebt ${reeksDoelwit} sommen goed beantwoord!`;
+      document.getElementById('rewardOverlay').classList.add('show');
+      b.animatie();
+    }
+
+    function volgende() {
+      document.getElementById('rewardOverlay').classList.remove('show');
+      reeks = 0;
+      updateScore();
+      nieuweVraag();
+    }
+
+    function animConfetti() {
+      const colors = ['#ffd200','#f7971e','#56ab2f','#a8e063','#667eea','#ff6b6b','#48dbfb','#ff9ff3'];
+      for (let i = 0; i < 90; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-20px';
+        el.style.width = (8 + Math.random() * 8) + 'px';
+        el.style.height = (12 + Math.random() * 10) + 'px';
+        el.style.borderRadius = '2px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animation = `confettiFall ${1.2 + Math.random() * 2.5}s ${Math.random() * 0.8}s linear forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function ballonSVG(kleur) {
+      return `<svg viewBox="0 0 100 145" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <ellipse cx="50" cy="50" rx="42" ry="46" fill="${kleur}"/>
+        <path d="M50 96 Q43 107 50 112 Q57 107 50 96" fill="${kleur}"/>
+        <ellipse cx="31" cy="29" rx="13" ry="8" fill="rgba(255,255,255,0.45)" transform="rotate(-30 31 29)"/>
+        <ellipse cx="27" cy="42" rx="5" ry="3" fill="rgba(255,255,255,0.2)" transform="rotate(-30 27 42)"/>
+        <path d="M50 112 Q46 118 50 122 Q54 118 50 112" fill="rgba(0,0,0,0.28)"/>
+        <path d="M50 122 Q41 133 50 145" stroke="rgba(0,0,0,0.25)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>`;
+    }
+
+    function animBallonnen() {
+      const kleuren = ['#ff6b6b','#ffd200','#56ab2f','#48dbfb','#ff9ff3','#a78bfa','#fb923c','#f97316'];
+      for (let i = 0; i < 16; i++) {
+        const kleur = kleuren[Math.floor(Math.random() * kleuren.length)];
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        const size = 52 + Math.random() * 32;
+        el.style.width = size + 'px';
+        el.style.height = (size * 1.45) + 'px';
+        el.innerHTML = ballonSVG(kleur);
+        el.style.left = (3 + Math.random() * 94) + 'vw';
+        el.style.bottom = '-130px';
+        el.style.top = 'auto';
+        el.style.setProperty('--sway', (Math.random() * 90 - 45) + 'px');
+        el.style.animation = `ballonOmhoog ${2.8 + Math.random() * 2}s ${Math.random() * 1.4}s ease-in forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animVuurwerk() {
+      const colors = ['#ffd200','#ff6b6b','#48dbfb','#ff9ff3','#56ab2f','#a78bfa','#fb923c','white'];
+      for (let e = 0; e < 5; e++) {
+        const cx = 10 + Math.random() * 80;
+        const cy = 8 + Math.random() * 60;
+        const delayBase = e * 0.4;
+        for (let i = 0; i < 20; i++) {
+          const angle = (i / 20) * 2 * Math.PI;
+          const dist = 90 + Math.random() * 140;
+          const el = document.createElement('div');
+          el.className = 'deeltje';
+          el.style.left = cx + 'vw';
+          el.style.top = cy + 'vh';
+          el.style.width = (6 + Math.random() * 7) + 'px';
+          el.style.height = (6 + Math.random() * 7) + 'px';
+          el.style.borderRadius = '50%';
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+          el.style.animation = `vuurwerkDeeltje ${0.7 + Math.random() * 0.6}s ${delayBase}s ease-out forwards`;
+          document.body.appendChild(el);
+          el.addEventListener('animationend', () => el.remove());
+        }
+      }
+    }
+
+    function animRollen() {
+      const emojis = ['⚽','🏀','🎾','🎱','🏈','🌈','⭐','🎯','🎳','🍭'];
+      const shuffled = shuffle([...emojis]);
+      for (let i = 0; i < 7; i++) {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = shuffled[i % shuffled.length];
+        el.style.fontSize = (30 + Math.random() * 28) + 'px';
+        el.style.top = (15 + Math.random() * 65) + 'vh';
+        el.style.left = '0';
+        el.style.lineHeight = 1;
+        el.style.animation = `rollenOver ${1.6 + Math.random() * 1.8}s ${i * 0.28}s linear forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animExplosie() {
+      const emojis = ['⭐','🌟','✨','💥','🎊','🎉','💫','🔥','🎈','🏆'];
+      const count = 22;
+      for (let i = 0; i < count; i++) {
+        const angle = (i / count) * 2 * Math.PI + (Math.random() - 0.5) * 0.4;
+        const dist = 140 + Math.random() * 180;
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.fontSize = (22 + Math.random() * 22) + 'px';
+        el.style.left = '50vw';
+        el.style.top = '50vh';
+        el.style.lineHeight = 1;
+        el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        el.style.animation = `explosieBurst ${0.9 + Math.random() * 0.7}s ${Math.random() * 0.25}s ease-out forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function animParade() {
+      const dieren = ['🦄','🐸','🦊','🐻','🦁','🐧','🐼','🐨','🦋','🐬'];
+      const keuze = shuffle([...dieren]).slice(0, 6);
+      keuze.forEach((dier, i) => {
+        const el = document.createElement('div');
+        el.className = 'deeltje';
+        el.textContent = dier;
+        el.style.fontSize = (40 + Math.random() * 16) + 'px';
+        el.style.top = (40 + Math.random() * 20) + 'vh';
+        el.style.left = '0';
+        el.style.lineHeight = 1;
+        el.style.animation = `paradeDier ${3.2 + Math.random() * 0.8}s ${i * 0.45}s ease-in-out forwards`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      });
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Start meteen
+    nieuweVraag();
+  </script>
+
+</body>
+</html>
