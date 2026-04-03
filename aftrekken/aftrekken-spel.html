@@ -450,6 +450,7 @@
 
       const grid = document.getElementById('answersGrid');
       grid.innerHTML = '';
+      grid.style.pointerEvents = 'none';
       opties.forEach(optie => {
         const btn = document.createElement('button');
         btn.className = 'answer-btn';
@@ -457,6 +458,7 @@
         btn.onclick = () => kiesAntwoord(btn, optie);
         grid.appendChild(btn);
       });
+      setTimeout(() => { grid.style.pointerEvents = ''; }, 0);
 
       const sd = document.getElementById('somDisplay');
       sd.style.animation = 'none';

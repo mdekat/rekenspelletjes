@@ -30,6 +30,23 @@
       text-align: center;
     }
 
+    .back-link {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(255,255,255,0.3);
+      color: white;
+      font-family: inherit;
+      font-size: 0.95em;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .back-link:hover { background: rgba(255,255,255,0.5); }
+
     .subtitle {
       color: #ffe0f0;
       font-size: 1em;
@@ -397,6 +414,7 @@
     @media (max-width: 600px) {
       body { padding: 12px 10px; }
       h1 { font-size: 1.7em; }
+      .back-link { font-size: 0.82em; padding: 6px 11px; top: 12px; left: 12px; }
       .subtitle { font-size: 0.9em; margin-bottom: 14px; }
       .game-container { padding: 16px 12px; border-radius: 18px; }
       .settings-bar { padding: 10px 12px; gap: 8px; }
@@ -424,6 +442,7 @@
 </head>
 
 <body>
+  <a class="back-link" href="../index.html">&#x2190; Terug</a>
   <h1>&#x1F9EE; Splitsingen Oefenen</h1>
   <p class="subtitle">Zoek de twee getallen die samen het getal maken!</p>
 
