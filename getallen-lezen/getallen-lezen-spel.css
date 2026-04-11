@@ -60,12 +60,13 @@ h1 {
   display: flex;
   gap: 20px;
   justify-content: center;
+  width: 340px;
+  max-width: 100%;
   margin-bottom: 8px;
   color: white;
   font-size: 1.05em;
   font-weight: bold;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-  flex-wrap: wrap;
 }
 .score-item span {
   background: rgba(255,255,255,0.3);
@@ -266,15 +267,18 @@ h1 {
 .reward-box .go-btn:active { transform: scale(0.95); }
 
 @media (max-width: 600px) {
+  body { padding: 12px 10px 32px; }
   h1 { font-size: 1.7em; }
+  .back-link { position: static; align-self: flex-start; font-size: 0.9em; padding: 7px 14px; margin-bottom: 6px; }
+  .level-bar { display: grid; grid-template-columns: repeat(4, 1fr); width: 100%; gap: 6px; }
+  .level-btn { padding: 8px 4px; font-size: 0.85em; }
+  .score-bar { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: 6px; font-size: 0.85em; text-align: center; }
   .game-box { padding: 24px 16px; }
   .getal-display { font-size: 3.8em; }
-  .back-link { font-size: 0.85em; padding: 6px 12px; }
   .mic-btn { width: 110px; height: 110px; }
   .mic-btn svg { width: 36px; height: 36px; }
   .reward-box { padding: 28px 24px; }
   .reward-box h2 { font-size: 1.6em; }
-  .score-bar { gap: 10px; font-size: 0.88em; }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {

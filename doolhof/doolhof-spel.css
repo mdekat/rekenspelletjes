@@ -166,9 +166,9 @@ td.cel.bezocht.fout-flits { animation: foutFlitsBezocht 0.5s ease-out forwards; 
 }
 
 @media (max-width: 600px) {
-  body { padding: 16px 10px 32px; }
+  body { padding: 12px 10px 32px; }
   h1 { font-size: 1.6em; }
-  .back-link { font-size: 0.82em; padding: 6px 11px; top: 12px; left: 12px; }
+  .back-link { position: static; align-self: flex-start; font-size: 0.9em; padding: 7px 14px; margin-bottom: 6px; }
   .overlay-box { padding: 28px 20px; }
   .overlay-box h2 { font-size: 1.6em; }
   .getal-btn { font-size: 0.9em; padding: 5px 8px; min-width: 32px; }
