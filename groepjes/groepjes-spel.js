@@ -1,4 +1,5 @@
 let niveau = 10;
+let modus = 'blokken';
 let goed = 0, fout = 0, reeks = 0;
 const reeksDoelwit = 10;
 let juisteAntwoord = 0;
@@ -11,6 +12,13 @@ function setLevel(n) {
     b.classList.toggle('active', b.textContent === 'Tot ' + n));
   goed = 0; fout = 0; reeks = 0;
   updateScore();
+  nieuweVraag();
+}
+
+function setModus(m) {
+  modus = m;
+  document.querySelectorAll('.modus-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.modus === m));
   nieuweVraag();
 }
 
@@ -94,20 +102,25 @@ function renderBord(n, niv) {
   const wrap = document.createElement('div');
   wrap.className = 'borden-wrap';
 
-  const aantalBorden = niv / 10;
-  if (aantalBorden > 4) wrap.classList.add('micro');
-  else if (aantalBorden > 2) wrap.classList.add('mini');
+  if (modus === 'lineair') {
+    wrap.classList.add('lineair');
+  } else {
+    const aantalBorden = niv / 10;
+    if (aantalBorden > 4) wrap.classList.add('micro');
+    else if (aantalBorden > 2) wrap.classList.add('mini');
+  }
 
+  const aantalBorden = niv / 10;
   for (let b = 0; b < aantalBorden; b++) {
     const gevuld = Math.min(10, Math.max(0, n - b * 10));
-    wrap.appendChild(maakFrame(gevuld, b));
+    wrap.appendChild(maakFrame(gevuld));
   }
   return wrap;
 }
 
-function maakFrame(gevuld, bordIndex) {
+function maakFrame(gevuld) {
   const frame = document.createElement('div');
-  frame.className = 'tientalsbord rij2';
+  frame.className = modus === 'lineair' ? 'tientalsbord lineair' : 'tientalsbord rij2';
   for (let i = 1; i <= 10; i++) {
     const stip = document.createElement('div');
     stip.className = 'stip';

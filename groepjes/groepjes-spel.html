@@ -25,6 +25,12 @@
     <button class="level-btn" onclick="setLevel(100)">Tot 100</button>
   </div>
 
+  <div class="modus-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Weergave:</span>
+    <button class="modus-btn active" data-modus="blokken" onclick="setModus('blokken')">&#x2B1B; Blokken</button>
+    <button class="modus-btn" data-modus="lineair" onclick="setModus('lineair')">&#x2015; Lineair</button>
+  </div>
+
   <div class="score-bar">
     <div class="score-item">&#x2705; Goed: <span id="scoreGoed">0</span></div>
     <div class="score-item">&#x274C; Fout: <span id="scoreFout">0</span></div>
