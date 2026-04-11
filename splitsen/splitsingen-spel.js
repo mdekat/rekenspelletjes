@@ -1,16 +1,17 @@
-let target = 10, cols = 4, rows = 4;
+let target = 10, pendingTarget = 10, cols = 4, rows = 4;
 let tiles = [], selectedIndex = null;
 let foundPairs = 0, totalPairs = 0, wrongMoves = 0;
 let msgTimeout = null;
 let images = ['animals2_square.jpg', 'animals_square.jpg', 'bear_square.jpg', 'cubs_square.jpg', 'eenhoorn1.jpg', 'eenhoorn2_square.jpg', 'eenhoorn3_square.jpg', 'eenhoorn4_square.jpg', 'eenhoorn5_square.jpg', 'einhorn-und-regenbogen_square.jpg', 'elfje2.jpg', 'elfje_square.jpg', 'kittens2_square.jpg', 'kittens_square.jpg', 'owls_square.jpg', 'rainbow_square.jpg'];
 
-function setTarget(n) {
-  target = n;
-  document.querySelectorAll('.target-buttons .btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+function setTarget(n, btn) {
+  pendingTarget = n;
+  document.querySelectorAll('.target-buttons .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function startGame() {
+  target = pendingTarget;
   cols = 4;
   rows = 4;
 
@@ -22,7 +23,7 @@ function startGame() {
   document.getElementById('tileGrid').className = 'grid cols-' + cols;
 
   const randomImage = images[Math.floor(Math.random() * images.length)];
-  document.getElementById('tileGrid').style.backgroundImage = 'url(img/' + randomImage + ')';
+  document.getElementById('tileGrid').style.backgroundImage = 'url(../img/vierkant/' + randomImage + ')';
 
   generateTiles();
   selectedIndex = null;
