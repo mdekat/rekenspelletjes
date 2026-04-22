@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vermenigvuldigen Oefenen</title>
+  <link rel="stylesheet" href="vermenigvuldigen-spel.css">
+  <link rel="stylesheet" href="../shared/animaties.css">
+</head>
+
+<body>
+
+  <a class="back-link" href="../index.html">&#x2190; Terug</a>
+
+  <h1>&#x2716; Vermenigvuldigen Oefenen</h1>
+
+  <p style="color:white;font-size:1.05em;margin-bottom:16px;text-shadow:1px 1px 4px rgba(0,0,0,0.2);">Wat is de uitkomst van de maaltafel?</p>
+
+  <!-- Tafel van -->
+  <div class="level-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Tafel van:</span>
+    <button class="tafel-btn" onclick="setTafel(1)">1</button>
+    <button class="tafel-btn active" onclick="setTafel(2)">2</button>
+    <button class="tafel-btn" onclick="setTafel(3)">3</button>
+    <button class="tafel-btn" onclick="setTafel(4)">4</button>
+    <button class="tafel-btn" onclick="setTafel(5)">5</button>
+    <button class="tafel-btn" onclick="setTafel(6)">6</button>
+    <button class="tafel-btn" onclick="setTafel(7)">7</button>
+    <button class="tafel-btn" onclick="setTafel(8)">8</button>
+    <button class="tafel-btn" onclick="setTafel(9)">9</button>
+    <button class="tafel-btn" onclick="setTafel(10)">10</button>
+  </div>
+
+  <!-- Vermenigvuldigingen tot -->
+  <div class="level-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Tot:</span>
+    <button class="max-btn" onclick="setMaxA(1)">1</button>
+    <button class="max-btn" onclick="setMaxA(2)">2</button>
+    <button class="max-btn" onclick="setMaxA(3)">3</button>
+    <button class="max-btn" onclick="setMaxA(4)">4</button>
+    <button class="max-btn" onclick="setMaxA(5)">5</button>
+    <button class="max-btn" onclick="setMaxA(6)">6</button>
+    <button class="max-btn" onclick="setMaxA(7)">7</button>
+    <button class="max-btn" onclick="setMaxA(8)">8</button>
+    <button class="max-btn" onclick="setMaxA(9)">9</button>
+    <button class="max-btn active" onclick="setMaxA(10)">10</button>
+  </div>
+
+  <!-- Score -->
+  <div class="score-bar">
+    <div class="score-item">&#x2705; Goed: <span id="scoreGoed">0</span></div>
+    <div class="score-item">&#x274C; Fout: <span id="scoreFout">0</span></div>
+    <div class="score-item">&#x1F3AF; Reeks: <span id="scoreReeks">0</span>/10</div>
+  </div>
+
+  <!-- Voortgangsbalk -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Spelbox -->
+  <div class="game-box">
+    <div class="som-display" id="somDisplay">3 &times; 2</div>
+    <div id="visualisatie"></div>
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Beloning overlay -->
+  <div class="reward-overlay" id="rewardOverlay">
+    <div class="reward-box">
+      <div class="star-row" id="rewardIcoon">&#x2B50;&#x1F389;&#x2B50;</div>
+      <h2 id="rewardTitel">Geweldig!</h2>
+      <p id="rewardText">Je hebt 10 sommen goed!</p>
+      <button class="go-btn" onclick="volgende()">&#x25B6; Nog meer sommen!</button>
+    </div>
+  </div>
+
+  <script src="../shared/animaties.js"></script>
+  <script src="vermenigvuldigen-spel.js"></script>
+
+</body>
+</html>

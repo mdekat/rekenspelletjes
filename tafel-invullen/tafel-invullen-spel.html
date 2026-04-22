@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tafel Invullen</title>
+  <link rel="stylesheet" href="tafel-invullen-spel.css">
+  <link rel="stylesheet" href="../shared/animaties.css">
+</head>
+
+<body>
+
+  <a class="back-link" href="../index.html">&#x2190; Terug</a>
+
+  <h1>&#x270F; Tafel Invullen</h1>
+
+  <p style="color:white;font-size:1.05em;margin-bottom:16px;text-shadow:1px 1px 4px rgba(0,0,0,0.2);">Kijk naar de afbeelding en vul de som in.</p>
+
+  <!-- Tafel van -->
+  <div class="level-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Tafel van:</span>
+    <button class="tafel-btn" onclick="setTafel(1)">1</button>
+    <button class="tafel-btn active" onclick="setTafel(2)">2</button>
+    <button class="tafel-btn" onclick="setTafel(3)">3</button>
+    <button class="tafel-btn" onclick="setTafel(4)">4</button>
+    <button class="tafel-btn" onclick="setTafel(5)">5</button>
+    <button class="tafel-btn" onclick="setTafel(6)">6</button>
+    <button class="tafel-btn" onclick="setTafel(7)">7</button>
+    <button class="tafel-btn" onclick="setTafel(8)">8</button>
+    <button class="tafel-btn" onclick="setTafel(9)">9</button>
+    <button class="tafel-btn" onclick="setTafel(10)">10</button>
+  </div>
+
+  <!-- Tot -->
+  <div class="level-bar">
+    <span style="color:white;font-weight:bold;align-self:center;">Tot:</span>
+    <button class="max-btn" onclick="setMaxA(1)">1</button>
+    <button class="max-btn" onclick="setMaxA(2)">2</button>
+    <button class="max-btn" onclick="setMaxA(3)">3</button>
+    <button class="max-btn" onclick="setMaxA(4)">4</button>
+    <button class="max-btn" onclick="setMaxA(5)">5</button>
+    <button class="max-btn" onclick="setMaxA(6)">6</button>
+    <button class="max-btn" onclick="setMaxA(7)">7</button>
+    <button class="max-btn" onclick="setMaxA(8)">8</button>
+    <button class="max-btn" onclick="setMaxA(9)">9</button>
+    <button class="max-btn active" onclick="setMaxA(10)">10</button>
+  </div>
+
+  <!-- Score -->
+  <div class="score-bar">
+    <div class="score-item">&#x2705; Goed: <span id="scoreGoed">0</span></div>
+    <div class="score-item">&#x274C; Fout: <span id="scoreFout">0</span></div>
+    <div class="score-item">&#x1F3AF; Reeks: <span id="scoreReeks">0</span>/10</div>
+  </div>
+
+  <!-- Voortgangsbalk -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Spelbox -->
+  <div class="game-box">
+    <div id="visualisatie"></div>
+
+    <div class="som-invul">
+      <input type="number" id="inputA" class="som-input" min="1" max="10" placeholder="?">
+      <span class="som-teken">&times;</span>
+      <input type="number" id="inputB" class="som-input" min="1" max="10" placeholder="?">
+      <span class="som-teken">=</span>
+      <input type="number" id="inputAntwoord" class="som-input antwoord-input" min="1" max="100" placeholder="?">
+    </div>
+
+    <button class="controleer-btn" id="controleerBtn" onclick="controleer()">&#x2713; Controleer</button>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Beloning overlay -->
+  <div class="reward-overlay" id="rewardOverlay">
+    <div class="reward-box">
+      <div class="star-row" id="rewardIcoon">&#x2B50;&#x1F389;&#x2B50;</div>
+      <h2 id="rewardTitel">Geweldig!</h2>
+      <p id="rewardText">Je hebt 10 sommen goed!</p>
+      <button class="go-btn" onclick="volgende()">&#x25B6; Nog meer sommen!</button>
+    </div>
+  </div>
+
+  <script src="../shared/animaties.js"></script>
+  <script src="tafel-invullen-spel.js"></script>
+
+</body>
+</html>
