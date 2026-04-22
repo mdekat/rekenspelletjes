@@ -19,10 +19,13 @@
 
   <div class="level-bar">
     <span style="color:white;font-weight:bold;align-self:center;">Niveau:</span>
-    <button class="level-btn active" onclick="setLevel(10)">Tot 10</button>
-    <button class="level-btn" onclick="setLevel(20)">Tot 20</button>
-    <button class="level-btn" onclick="setLevel(50)">Tot 50</button>
-    <button class="level-btn" onclick="setLevel(100)">Tot 100</button>
+    <button class="level-btn active" data-niveau="10"  data-stap="1"  onclick="setLevel(10,1)">Tot 10</button>
+    <button class="level-btn"        data-niveau="20"  data-stap="1"  onclick="setLevel(20,1)">Tot 20</button>
+    <button class="level-btn"        data-niveau="50"  data-stap="5"  onclick="setLevel(50,5)">50 &times;5</button>
+    <button class="level-btn"        data-niveau="50"  data-stap="1"  onclick="setLevel(50,1)">50 alles</button>
+    <button class="level-btn"        data-niveau="100" data-stap="10" onclick="setLevel(100,10)">100 &times;10</button>
+    <button class="level-btn"        data-niveau="100" data-stap="5"  onclick="setLevel(100,5)">100 &times;5</button>
+    <button class="level-btn"        data-niveau="100" data-stap="1"  onclick="setLevel(100,1)">100 alles</button>
   </div>
 
   <div class="modus-bar">
